@@ -429,15 +429,11 @@ def convert_qiskit_to_braket_circuit(circuit: QuantumCircuit) -> Circuit:
         if name == "measure":
             # TODO: change Probability result type for Sample for proper functioning # pylint:disable=fixme
             # Getting the index from the bit mapping
-            quantum_circuit.add_result_type(
-                # pylint:disable=fixme
-                result_types.Sample(
-                    observable=observables.Z(),
-                    target=[
-                        circuit.find_bit(qiskit_gates[1][0]).index,
-                        circuit.find_bit(qiskit_gates[2][0]).index,
-                    ],
-                )
+            quantum_circuit.sample(
+                observable=observables.Z(),
+                target=[
+                    circuit.find_bit(qiskit_gates.qubits[0]).index,
+                ],
             )
         elif name == "barrier":
             # This does not exist
